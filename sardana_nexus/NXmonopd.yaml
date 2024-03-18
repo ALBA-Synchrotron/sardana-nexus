@@ -1,0 +1,43 @@
+# NXmonopd nexus application definition example for Mythen-II detector
+
+# Different "urls" can be used to access different parts of sardana, for example:
+# snapshot://mot01
+# sarenv://envVar
+# mgdata://expChannel
+
+definition: NXmonopd
+
+beamline: BLXX
+facility: 'ALBA Synchrotron Light Source (CELLS)'
+experiment_info: sarenv://NexusExperimentInfo
+
+instrument:
+  source:
+    klass: NXsource
+    name: Synchrotron
+    probe: x-ray
+    type: Synchrotron X-ray Source
+  monochromator:
+    klass: NXmonochromator
+    description: DCM
+    crystal:
+      type: Si
+      reflection: [1,1,1]
+    wavelength: sarenv://wavelength  # can be env var o directly float
+    energy: snapshot://dcm_kev
+  detector:
+    klass: NXdetector
+    description: Dectris Mythen-II
+    layout: linear
+    distance: 535 mm
+    MythenSetting: sarenv://MythenSetting
+    angular_conversion: file_or_sarEnv
+    flatfield: file_or_sarEnv
+    badchannels: file_or_sarEnv
+    polar_angle: mgdata://dmot01
+    data: mgdata://myth2
+
+macros:
+  - mythtake
+  - mythloop
+
